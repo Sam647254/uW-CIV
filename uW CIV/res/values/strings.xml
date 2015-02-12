@@ -15,5 +15,47 @@
         <item >Buildings and weather</item>
         <item >General news, events, and employer info sessions</item>
     </string-array>
+    <string-array name="building_weather_menu_entries">
+        <item >Buildings information</item>
+        <item >Weather station</item><item>Printers</item>
+        <item >GooseWatch</item>
+        
+    </string-array>
+    <string-array name="building_weather_menu_descr">
+        <item >View building locations and room availability</item>
+        <item >View current weather info from the weather station</item>
+        <item >View list of printers on campus</item>
+        <item >View goose nest locations</item>
+    </string-array>
+    <string-array name="weather_entries">
+        <item >Temperature</item>
+        <item >Humidex</item>
+        <item >Wind chill</item>
+        <item >Relative humidity</item>
+        <item >Dew point</item>
+        <item >Wind speed</item>
+        <item >Pressure</item>
+        <item >Shortwave radiation</item>
+        <item >24-hour\nmaximum temperature</item>
+        <item >24-hour\nminimum temperature</item>
+        <item >15-min precipitation</item>
+        <item >1-hour precipitation</item>
+        <item >24-hour precipitation</item>
+    </string-array>
+    <string-array name="weather_units">
+        <item >°C</item>
+        <item >°C</item>
+        <item >°C</item>
+        <item >%</item>
+        <item >°C</item>
+        <item >km/h</item>
+        <item >kPa</item>
+        <item >W/m²</item>
+        <item >°C</item>
+        <item >°C</item>
+        <item >mm</item>
+        <item >mm</item>
+        <item >mm</item>
+    </string-array>
 
 </resources>

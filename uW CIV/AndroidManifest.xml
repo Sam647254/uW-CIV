@@ -23,6 +23,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity 
+            android:name="net.givreardent.sam.uwciv.CampusInfoActivity"
+            android:parentActivityName="net.givreardent.sam.uwciv.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.givreardent.sam.uwciv.MainActivity" />
+        </activity>
+        <activity 
+            android:name="net.givreardent.sam.uwciv.WeatherActivity"
+            android:parentActivityName="net.givreardent.sam.uwciv.CampusInfoActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.givreardent.sam.uwciv.CampusInfoActivity" />
+        </activity>
     </application>
 
 </manifest>
