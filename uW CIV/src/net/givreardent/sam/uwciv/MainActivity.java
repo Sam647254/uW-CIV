@@ -6,9 +6,6 @@ public class MainActivity extends SingleFragmentActivity {
 
 	@Override
 	protected Fragment createFragment() {
-		// TODO Auto-generated method stub
-		return null;
+		return new MainFragment();
 	}
-
-	
 }

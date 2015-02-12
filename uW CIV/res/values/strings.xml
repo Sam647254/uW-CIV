@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">uWIV</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">uWaterloo Comprehensive Info Viewer</string>
+    <string name="empty_list_message">Nothing to display.</string>
+    <string-array name="main_menu_entries">
+        <item >Terms and Courses</item>
+        <item >Food Services</item>
+        <item >Campus Info</item>
+        <item >News and Events</item>
+    </string-array>
+    <string-array name="main_menu_descr">
+        <item >Course offerings, schedules and more</item>
+        <item >Weekly menu and eatery info</item>
+        <item >Buildings and weather</item>
+        <item >General news, events, and employer info sessions</item>
+    </string-array>
 
 </resources>
