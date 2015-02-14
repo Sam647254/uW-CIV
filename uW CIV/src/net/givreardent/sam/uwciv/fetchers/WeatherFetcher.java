@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -19,11 +20,11 @@ public final class WeatherFetcher {
 
 	public static JSONObject getWeatherJSON() throws JSONException {
 		URL JSONURL = null;
-		HttpsURLConnection connection = null;
+		HttpURLConnection connection = null;
 		StringBuilder builder = new StringBuilder();
 		try {
-			JSONURL = new URL("https://api.uwaterloo.ca/v2/weather/current.json?api_key=" + APIKey);
-			connection = (HttpsURLConnection) JSONURL.openConnection();
+			JSONURL = new URL("http://api.uwaterloo.ca/v2/weather/current.json?api_key=" + APIKey);
+			connection = (HttpURLConnection) JSONURL.openConnection();
 			InputStream in = connection.getInputStream();
 			InputStreamReader inReader = new InputStreamReader(in);
 			BufferedReader reader = new BufferedReader(inReader);

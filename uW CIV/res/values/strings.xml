@@ -57,5 +57,6 @@
         <item >mm</item>
         <item >mm</item>
     </string-array>
+    <string name="refresh">Refresh</string>
 
 </resources>
