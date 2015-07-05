@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">uWaterloo Comprehensive Info Viewer</string>
+    <string name="app_name">uWaterloo InfoViewer</string>
     <string name="empty_list_message">Nothing to display.</string>
     <string-array name="main_menu_entries">
         <item >Terms and Courses</item>
@@ -36,8 +36,8 @@
         <item >Wind speed</item>
         <item >Pressure</item>
         <item >Shortwave radiation</item>
-        <item >24-hour\nmaximum temperature</item>
-        <item >24-hour\nminimum temperature</item>
+        <item >24-hour\nmaximum</item>
+        <item >24-hour\nminimum</item>
         <item >15-min precipitation</item>
         <item >1-hour precipitation</item>
         <item >24-hour precipitation</item>
@@ -58,5 +58,10 @@
         <item >mm</item>
     </string-array>
     <string name="refresh">Refresh</string>
+    <string name="goosewatch_description">Description: </string>
+    <string name="goosewatch_updated">Updated: </string>
+    <string name="goosewatch_error">Unable to retrieve list of goose nests. Check if your connection has been sabotaged by the geese.</string>
+    <string name="loading">Loading...</string>
+    
 
 </resources>

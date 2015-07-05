@@ -6,17 +6,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import net.givreardent.sam.uwciv.fetchers.WeatherFetcher;
+import net.givreardent.sam.uwciv.fetchers.Fetcher;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.TargetApi;
+import android.app.ListFragment;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class WeatherFragment extends ListFragment {
 	private ArrayList<Item> entries;
@@ -59,15 +56,11 @@ public class WeatherFragment extends ListFragment {
 		inflater.inflate(R.menu.menu_weather, menu);
 	}
 	
-	@TargetApi(11)
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.refresh:
-			if (Build.VERSION.SDK_INT >= 11)
-				getActivity().getActionBar().setSubtitle("Refreshing...");
-			else
-				Toast.makeText(getActivity(), "Refreshing...", Toast.LENGTH_SHORT).show();
+			getActivity().getActionBar().setSubtitle("Refreshing...");
 			new FetchWeatherTask().execute();
 			return true;
 		default:
@@ -82,19 +75,15 @@ public class WeatherFragment extends ListFragment {
 		new FetchWeatherTask().execute();
 	}
 	
-	@TargetApi(11)
 	public void refresh() {
 		((WeatherAdapter) getListAdapter()).notifyDataSetChanged();
-		if (Build.VERSION.SDK_INT >= 11)
-			getActivity().getActionBar().setSubtitle("Observation at: " + lastUpdate);
-		else
-			Toast.makeText(getActivity(), "Observation at: " + lastUpdate, Toast.LENGTH_LONG).show();
+		getActivity().getActionBar().setSubtitle("Observation at: " + lastUpdate);
 	}
 	
 	public class Item {
 		String title;
 		String descr;
-		String value = "--";
+		String value = "-.-";
 		
 		public Item(String title, String descr) {
 			this.title = title;
@@ -116,7 +105,7 @@ public class WeatherFragment extends ListFragment {
 			entry.setText(item.title);
 			TextView unit = (TextView) convertView.findViewById(R.id.weather_unit);
 			unit.setText(item.descr);
-			Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/erbos_draco_1st_open_nbp.ttf");
+			Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/digital-7 (mono italic).ttf");
 			TextView value = (TextView) convertView.findViewById(R.id.weather_value);
 			value.setTypeface(font);
 			value.setText(item.value);
@@ -124,44 +113,45 @@ public class WeatherFragment extends ListFragment {
 		}
 	}
 	
-	private class FetchWeatherTask extends AsyncTask<Void, Void, Void> {
+	private class FetchWeatherTask extends AsyncTask<Void, Void, Boolean> {
 		private final String[] values = { "temperature_current_c", "humidex_c", "windchill_c",
 				"relative_humidity_percent", "dew_point_c", "wind_speed_kph", "pressure_kpa",
 				"incoming_shortwave_radiation_wm2", "temperature_24hr_max_c", "temperature_24hr_min_c",
 				"precipitation_15min_mm", "precipitation_1hr_mm", "precipitation_24hr_mm"};
-		private final String windDirection = "wind_direction_degrees", time = "observation_time",
-				dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
+		private final String windDirection = "wind_direction_degrees", time = "observation_time";
 
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected Boolean doInBackground(Void... params) {
 			JSONObject data;
 			try {
-				data = WeatherFetcher.getWeatherJSON();
+				data = Fetcher.getWeather();
+				if (data == null)
+					return false;
 				float direction = (float) data.getDouble(windDirection);
 				float speed = (float) data.getDouble(values[5]);
 				if (direction < 22.5 || direction >= 337.5)
-					entries.get(5).value = "N ";
+					entries.get(5).value = "N";
 				else if (direction >=22.5 && direction < 67.5)
 					entries.get(5).value = "NW";
 				else if (direction >= 67.5 && direction < 112.5)
-					entries.get(5).value = "W ";
+					entries.get(5).value = "W";
 				else if (direction >= 112.5 && direction < 157.5)
 					entries.get(5).value = "SW";
 				else if (direction >= 157.5 && direction < 202.5)
-					entries.get(5).value = "S ";
+					entries.get(5).value = "S";
 				else if (direction >= 202.5 && direction < 247.5)
 					entries.get(5).value = "SE";
 				else if (direction >= 247.5 && direction < 292.5)
-					entries.get(5).value = "E ";
+					entries.get(5).value = "E";
 				else if (direction >= 292.5 && direction < 337.7)
 					entries.get(5).value = "NE";
-				entries.get(5).value += String.format("%3d", (int) speed);
+				entries.get(5).value += String.format(" %.1f", speed);
 				String time = data.getString(this.time);
-				SimpleDateFormat df = new SimpleDateFormat(dateFormat);
+				SimpleDateFormat df = Fetcher.dateFormatter;
 				DateFormat dF = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.CANADA);
 				lastUpdate = dF.format(df.parse(time));
 			} catch (JSONException | ParseException e) {
-				return null;
+				return false;
 			}
 			for (int i = 0; i < values.length; i++) {
 				if (i == 5) continue;
@@ -171,12 +161,16 @@ public class WeatherFragment extends ListFragment {
 					Log.e("tag", "Error: ", e);
 				}
 			}
-			return null;
+			return true;
 		}
 		
 		@Override
-		protected void onPostExecute(Void items) {
-			refresh();
+		protected void onPostExecute(Boolean result) {
+			if (result)
+				refresh();
+			else {
+				getActivity().getActionBar().setSubtitle("Error when retrieving data.");
+			}
 		}
 	}
 }
