@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import net.givreardent.sam.uwciv.fetchers.Fetcher;
+import net.givreardent.sam.uwciv.internal.status;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class WeatherFragment extends ListFragment {
+	
 	private ArrayList<Item> entries;
 	private String lastUpdate;
 	
@@ -113,7 +115,7 @@ public class WeatherFragment extends ListFragment {
 		}
 	}
 	
-	private class FetchWeatherTask extends AsyncTask<Void, Void, Boolean> {
+	private class FetchWeatherTask extends AsyncTask<Void, Void, status> {
 		private final String[] values = { "temperature_current_c", "humidex_c", "windchill_c",
 				"relative_humidity_percent", "dew_point_c", "wind_speed_kph", "pressure_kpa",
 				"incoming_shortwave_radiation_wm2", "temperature_24hr_max_c", "temperature_24hr_min_c",
@@ -121,13 +123,19 @@ public class WeatherFragment extends ListFragment {
 		private final String windDirection = "wind_direction_degrees", time = "observation_time";
 
 		@Override
-		protected Boolean doInBackground(Void... params) {
-			JSONObject data;
+		protected status doInBackground(Void... params) {
+			JSONObject data = null;
 			try {
 				data = Fetcher.getWeather();
 				if (data == null)
-					return false;
-				float direction = (float) data.getDouble(windDirection);
+					return status.dataError;
+				String time = data.getString(this.time);
+				SimpleDateFormat df = Fetcher.dateFormatter;
+				DateFormat dF = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.CANADA);
+				lastUpdate = dF.format(df.parse(time));
+				float direction = (float) data.optDouble(windDirection);
+				if (Double.isNaN(direction))
+					entries.get(5).value = "";
 				float speed = (float) data.getDouble(values[5]);
 				if (direction < 22.5 || direction >= 337.5)
 					entries.get(5).value = "N";
@@ -146,12 +154,8 @@ public class WeatherFragment extends ListFragment {
 				else if (direction >= 292.5 && direction < 337.7)
 					entries.get(5).value = "NE";
 				entries.get(5).value += String.format(" %.1f", speed);
-				String time = data.getString(this.time);
-				SimpleDateFormat df = Fetcher.dateFormatter;
-				DateFormat dF = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.CANADA);
-				lastUpdate = dF.format(df.parse(time));
 			} catch (JSONException | ParseException e) {
-				return false;
+				Log.e("Weather Fragment", "Error: ", e);
 			}
 			for (int i = 0; i < values.length; i++) {
 				if (i == 5) continue;
@@ -161,15 +165,15 @@ public class WeatherFragment extends ListFragment {
 					Log.e("tag", "Error: ", e);
 				}
 			}
-			return true;
+			return status.success;
 		}
 		
 		@Override
-		protected void onPostExecute(Boolean result) {
-			if (result)
+		protected void onPostExecute(status result) {
+			if (result == status.success)
 				refresh();
 			else {
-				getActivity().getActionBar().setSubtitle("Error when retrieving data.");
+				getActivity().getActionBar().setSubtitle("Error when retrieving data. (Error 1)");
 			}
 		}
 	}

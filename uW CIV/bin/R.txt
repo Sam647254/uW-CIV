@@ -121,6 +121,7 @@ int id fragmentContainer 0x7f07001a
 int id goosenest_listview 0x7f07001c
 int id goosenest_mapview 0x7f07001b
 int id goosewatch_descr 0x7f07001d
+int id goosewatch_setmap 0x7f070024
 int id goosewatch_updated 0x7f07001e
 int id grayscale 0x7f070017
 int id holo_dark 0x7f070008
@@ -133,7 +134,7 @@ int id monochrome 0x7f070018
 int id none 0x7f070003
 int id normal 0x7f070005
 int id production 0x7f07000a
-int id refresh 0x7f070024
+int id refresh 0x7f070025
 int id sandbox 0x7f07000b
 int id satellite 0x7f070006
 int id selectionDetails 0x7f07000f
@@ -152,7 +153,8 @@ int layout fragment_list 0x7f030002
 int layout list_goosewatch 0x7f030003
 int layout list_main 0x7f030004
 int layout list_weather 0x7f030005
-int menu menu_weather 0x7f0b0000
+int menu menu_goosewatch 0x7f0b0000
+int menu menu_weather 0x7f0b0001
 int raw gtm_analytics 0x7f040000
 int string accept 0x7f060002
 int string app_name 0x7f06002c
@@ -202,8 +204,10 @@ int string goosewatch_error 0x7f060031
 int string goosewatch_updated 0x7f060030
 int string loading 0x7f060032
 int string refresh 0x7f06002e
+int string satellite_map 0x7f060034
 int string store_picture_message 0x7f060001
 int string store_picture_title 0x7f060000
+int string terrain_map 0x7f060033
 int string wallet_buy_button_place_holder 0x7f06002b
 int style AppBaseTheme 0x7f050005
 int style AppTheme 0x7f050006
