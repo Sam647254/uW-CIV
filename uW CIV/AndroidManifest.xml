@@ -48,9 +48,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.givreardent.sam.uwciv.CampusInfoActivity" />
         </activity>
+        <activity
+            android:name="net.givreardent.sam.uwciv.BuildingsListActivity"
+            android:parentActivityName="net.givreardent.sam.uwciv.CampusInfoActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.givreardent.sam.uwciv.CampusInfoActivity" />
+        </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDKqwmfNGoeWqvAVmUPvOpU792QYdkjfhg" />
+            android:value="AIzaSyDv3eDNdwZEDgakD3K0cfzNdh_5zUpGqSU" />
         <meta-data 
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>

@@ -37,6 +37,10 @@ public class CampusInfoFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent i;
 		switch(position) {
+		case 0:
+			i = new Intent(getActivity(), BuildingsListActivity.class);
+			startActivity(i);
+			break;
 		case 1:
 			i = new Intent(getActivity(), WeatherActivity.class);
 			startActivity(i);

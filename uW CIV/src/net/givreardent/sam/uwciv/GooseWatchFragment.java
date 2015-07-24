@@ -53,7 +53,7 @@ public class GooseWatchFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_goosewatch, parent, false);
+		View v = inflater.inflate(R.layout.fragment_map_list, parent, false);
 		mapView = (MapView) v.findViewById(R.id.goosenest_mapview);
 		mapView.onCreate(savedInstanceState);
 		mapView.getMapAsync(new OnMapReadyCallback() {
@@ -203,8 +203,10 @@ public class GooseWatchFragment extends Fragment {
 		protected void onPostExecute(status result) {
 			if (result == status.success)
 				refresh();
+			else if (result == status.corruptData)
+				emptyMessage.setText(R.string.goosewatch_error_2);
 			else
-				emptyMessage.setText(R.string.goosewatch_error);
+				emptyMessage.setText(R.string.goosewatch_error_1);
 		}
 	}
 }

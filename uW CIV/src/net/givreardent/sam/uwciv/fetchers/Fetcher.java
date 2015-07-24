@@ -17,9 +17,10 @@ import org.json.JSONTokener;
 
 import android.net.Uri;
 import android.util.Log;
+import net.givreardent.sam.uwciv.internal.data;
 
 public class Fetcher {
-	protected static final String APIKey = "81a599eb8d4742d9164739ae09541547";
+	protected static final String APIKey = data.APIKey;
 	public static final String dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
 	public static final SimpleDateFormat dateFormatter = new SimpleDateFormat(Fetcher.dateFormat);
 	
@@ -29,6 +30,10 @@ public class Fetcher {
 	
 	public static JSONArray getGooseWatch() throws JSONException {
 		return (JSONArray) getData("http://api.uwaterloo.ca/v2/resources/goosewatch.json", true);
+	}
+	
+	public static JSONArray getBuildingsList() throws JSONException {
+		return (JSONArray) getData("https://api.uwaterloo.ca/v2/buildings/list.json", true);
 	}
 	
 	private static Object getData(String requestURL, boolean isArray) throws JSONException {
